@@ -50,12 +50,10 @@ class OpenaiTTS(TTSProvider):
             tuple[int, bytes]: Chunk number and audio data
             
         Raises:
-            TTSRequestError: If the request fails after retries
+            TTSRequestError: If the request fails
         """
-        max_retries = 3
-        retry_count = 0
         
-        while retry_count < max_retries:
+        while True:
             try:
                 payload = {
                     'input': text,
@@ -79,19 +77,14 @@ class OpenaiTTS(TTSProvider):
                     return chunk_number, response.content
                     
                 if self.config.verbose:
-                    print(f"No data received for chunk {chunk_number}. Attempt {retry_count + 1}/{max_retries}")
+                    print(f"No data received for chunk {chunk_number}")
                     
             except requests.RequestException as e:
                 if self.config.verbose:
-                    print(f"Error processing chunk {chunk_number}: {str(e)}. Attempt {retry_count + 1}/{max_retries}")
-                if retry_count == max_retries - 1:
+                    print(f"Error processing chunk {chunk_number}: {str(e)}")
                     raise TTSRequestError(f"Failed to generate audio for chunk {chunk_number}: {str(e)}")
-            
-            retry_count += 1
             time.sleep(1)
-        
-        raise TTSRequestError(f"Failed to generate audio for chunk {chunk_number} after {max_retries} attempts")
-    
+            
     def speak(
         self,
         text: str,

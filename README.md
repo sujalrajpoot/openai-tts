@@ -145,10 +145,6 @@ except TTSException as e:
     print(f"An error occurred: {e}")
 ```
 
-```bash
-python -m unittest discover
-```
-
 ## 🤝 Contributing
 
 Contributions are welcome! Here's how you can help:
@@ -174,10 +170,6 @@ Contributions are welcome! Here's how you can help:
 7. **Open a Pull Request**
 
 Please ensure your code follows the project's style guide and includes appropriate tests.
-
-### 📝 Code Style
-
-We follow PEP 8 conventions. Please use tools like `flake8` and `black` to ensure your code matches our style.
 
 ## 📊 Performance Considerations
 

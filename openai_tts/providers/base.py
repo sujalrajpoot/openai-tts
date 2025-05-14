@@ -1,14 +1,23 @@
 """Base classes for TTS providers."""
 
 from abc import ABC, abstractmethod
-from typing import Optional
+from pathlib import Path
+from typing import (
+    AsyncGenerator,
+    Generator,
+    List,
+    Optional,
+    Union,
+)
+from typing_extensions import TypeAlias
+from dataclasses import dataclass, Field
 
 from openai_tts.config import TTSConfig
 
 
 class TTSProvider(ABC):
     """Abstract base class for TTS providers."""
-    
+
     @abstractmethod
     def speak(self, text: str, config: Optional[TTSConfig] = None) -> str:
         """Convert text to speech and save to file.

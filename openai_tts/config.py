@@ -3,6 +3,7 @@
 from dataclasses import dataclass
 from enum import Enum, auto
 from typing import List
+import os
 
 class VoiceType(Enum):
     """Enumeration of available voice types for text-to-speech."""
@@ -26,7 +27,7 @@ class VoiceType(Enum):
 @dataclass
 class TTSConfig:
     """Configuration class for Text-to-Speech settings."""
-    timeout: int = 20
+    timeout: int = 30
     verbose: bool = True
-    output_path: str = "output.mp3"
+    output_path: str = os.path.join(os.getcwd(), "output.mp3")
     voice: VoiceType = VoiceType.SHIMMER

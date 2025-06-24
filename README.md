@@ -9,7 +9,7 @@ A powerful and easy-to-use Python library for generating natural-sounding speech
 ## ✨ Features
 
 - 🔊 Convert text to high-quality speech using OpenAI's TTS API
-- 🎭 Multiple voice options (Alloy, Echo, Fable, Onyx, Nova, Shimmer)
+- 🎭 Multiple voice options (Alloy, Ash, Ballad, Coral, Echo, Fable, Onyx, Nova, Sage, Shimmer, Verse)
 - 🚀 Concurrent processing for faster generation of audio files
 - 🧩 Modular and extensible architecture for adding new providers
 - 📝 Intelligent sentence splitting for natural-sounding speech
@@ -43,7 +43,7 @@ openai-tts/
 
 ## 🛠️ Installation
 
-**Using pip command**
+**Using PyPI (Recommended)**
 ```bash
 pip install openai-tts
 ```
@@ -58,7 +58,7 @@ pip install -r requirements.txt
 ## 🔍 Dependencies
 
 - Python 3.8+
-- requests
+- curl-cffi
 
 ## 📋 Quick Start
 

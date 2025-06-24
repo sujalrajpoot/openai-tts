@@ -9,12 +9,17 @@ if __name__ == "__main__":
     
     tts = OpenaiTTS()
     
-    text = """The sun was setting over the distant mountains, painting the sky in brilliant shades of orange and pink. A gentle breeze rustled through the trees, carrying the sweet scent of blooming flowers. Birds sang their evening songs as they returned to their nests."Hey there! 😊 Welcome to your personalized Text-to-Speech experience with OpenAI-TTS! 🎉. This package can turn any text into a voice, just like magic! ✨. Whether you're working late 🌙, studying hard 📚, or just having fun 🕹️, this TTS is here to speak your mind—literally! 💬 Let's bring your words to life with sound 🔊. Ready? Let's talk! 🗣️"""
+    text = "The sun was setting over the distant mountains, painting the sky in brilliant shades of orange and pink. Hey there! 😊 Welcome to your personalized Text-to-Speech experience with OpenAI-TTS! 🎉. This package can turn any text into a voice, just like magic! ✨."
     
-    # Example usage with different parameter combinations
-    tts.speak(text)  # Uses default config
-    tts.speak(text, voice=VoiceType.ECHO)  # Uses ECHO voice
-    tts.speak(text, output_path="custom_output.mp3", verbose=False)  # Custom output path and verbosity
-    tts.speak(text, voice=VoiceType.NOVA, output_path="nova_output.mp3", verbose=True)  # All parameters
-    
+    tts.speak(text, voice=VoiceType.NOVA, output_path="NOVA.mp3", verbose=True)  # All parameters
+    tts.speak(text, voice=VoiceType.ALLOY, output_path="ALLOY.mp3", verbose=True)  # All parameters
+    tts.speak(text, voice=VoiceType.ASH, output_path="ASH.mp3", verbose=True)  # All parameters
+    tts.speak(text, voice=VoiceType.BALLAD, output_path="BALLAD.mp3", verbose=True)  # All parameters
+    tts.speak(text, voice=VoiceType.CORAL, output_path="CORAL.mp3", verbose=True)  # All parameters
+    tts.speak(text, voice=VoiceType.ECHO, output_path="ECHO.mp3", verbose=True)  # All parameters
+    tts.speak(text, voice=VoiceType.ONYX, output_path="ONYX.mp3", verbose=True)  # All parameters
+    tts.speak(text, voice=VoiceType.SAGE, output_path="SAGE.mp3", verbose=True)  # All parameters
+    tts.speak(text, voice=VoiceType.SHIMMER, output_path="SHIMMER.mp3", verbose=True)  # All parameters
+    tts.speak(text, voice=VoiceType.VERSE, output_path="VERSE.mp3", verbose=True)  # All parameters
+    tts.speak(text, voice=VoiceType.FABLE, output_path="FABLE.mp3", verbose=True)  # All parameters
     print(f"Time Taken: {time.time() - start_time:.2f} Seconds.")

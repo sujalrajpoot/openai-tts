@@ -7,8 +7,9 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Dict, Optional, Union, List, Generator, AsyncGenerator
 from typing_extensions import TypeAlias
+from uuid import uuid4
 
-import requests
+from curl_cffi import Session, exceptions
 
 from openai_tts.config import TTSConfig, VoiceType
 from openai_tts.exceptions import TTSException, TTSRequestError
@@ -32,15 +33,15 @@ class OpenaiTTS(TTSProvider):
     def _setup_session(self) -> None:
         """Set up the HTTP session with required headers."""
         self.PROVIDER_URL: str = "https://www.openai.fm/api/generate"
-        self.session = requests.Session()
+        self.session = Session()
         self.session.headers.update({
-            "accept": "*/*",
-            "accept-encoding": "gzip, deflate, br, zstd",
-            "accept-language": "en-US,en;q=0.9,hi;q=0.8",
-            "dnt": "1",
-            "origin": "https://www.openai.fm",
-            "referer": "https://www.openai.fm/",
-            "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+            'sec-ch-ua-platform': '"Windows"',
+            'Referer': 'https://www.openai.fm/',
+            'sec-ch-ua': '"Microsoft Edge";v="137", "Chromium";v="137", "Not/A)Brand";v="24"',
+            'sec-ch-ua-mobile': '?0',
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 Edg/137.0.0.0',
+            'DNT': '1',
+            'Range': 'bytes=0-',
         })
 
     def _generate_audio_chunk(self, text: str, chunk_number: int) -> tuple[int, bytes]:
@@ -57,18 +58,18 @@ class OpenaiTTS(TTSProvider):
         Raises:
             TTSRequestError: If the request fails.
         """
-        payload = {
-            'input': text,
-            'prompt': 'Standard clear voice.',
-            'voice': self.config.voice.value,
-            'vibe': 'null'
+        params = {
+            'input': text.strip(),
+            'prompt': 'Voice: High quality, crisp, clear and with full of emotions like Excitement, confusion, surprise, frustration, anger, disappointment, happiness, calmness, sarcasm, friendliness, flirtatiousness, curiosity, and more. I use my tones, inflections, and pauses to convey these emotions just like a human would.',
+            'voice': str(self.config.voice.value),
+            'generation': str(uuid4()),
         }
 
         while True:
             try:
-                response = self.session.post(
+                response = self.session.get(
                     self.PROVIDER_URL,
-                    data=payload,
+                    params=params,
                     timeout=self.config.timeout
                 )
                 response.raise_for_status()
@@ -81,12 +82,10 @@ class OpenaiTTS(TTSProvider):
                 if self.config.verbose:
                     print(f"No data received for chunk {chunk_number}.")
 
-            except requests.RequestException as e:
+            except exceptions.RequestException as e:
                 if self.config.verbose:
                     print(f"Error processing chunk {chunk_number}: {e}")
-                raise TTSRequestError(f"Failed to generate audio for chunk {chunk_number}: {e}")
-
-            time.sleep(1)
+                time.sleep(1)
 
     def speak(
         self,
@@ -151,7 +150,7 @@ class OpenaiTTS(TTSProvider):
                         f.write(audio_chunks[chunk_num])
 
                 if current_config.verbose:
-                    print(f"Audio saved to {output_file}")
+                    print(f"Audio saved to {output_file.absolute()}")
                 return str(output_file)
 
         except Exception as e:

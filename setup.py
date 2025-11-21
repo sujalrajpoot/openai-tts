@@ -14,6 +14,8 @@ setup(
     author_email='sujalrajpoot70@gmail.com',
     packages=find_packages(),
     install_requires=[
-        'curl-cffi'
+        'curl-cffi',
+        'future'
     ],
 )
+
